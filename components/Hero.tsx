@@ -63,7 +63,7 @@ export default function Hero() {
           <span className="ln"><span>We build it.</span></span>
         </h1>
         <p className="sub">
-          LeadCapp designs, builds and launches mobile apps, web platforms and cloud systems, so you can focus on growing
+          LeadCapp Software Solutions designs, builds and launches mobile apps, web platforms and cloud systems, so you can focus on growing
           your business, not managing developers.
         </p>
         <div className="ctas">

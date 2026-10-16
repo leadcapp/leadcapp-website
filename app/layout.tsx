@@ -12,17 +12,58 @@ const mono = localFont({ src: "./fonts/JetBrainsMono.woff2", weight: "400", vari
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
-  title: { default: "LeadCapp · App & Web Development Agency in India", template: "%s · LeadCapp" },
-  description: site.description,
+  title: {
+    default: "LeadCapp Software Solutions | App & Web Development Company in India",
+    template: "%s | LeadCapp Software Solutions",
+  },
+  description:
+    "LeadCapp Software Solutions builds mobile apps, websites, web platforms, cloud systems and AI features for startups and businesses in India. MVPs from ₹30,000. Book a free call.",
+  applicationName: site.legalName,
+  keywords: [
+    "LeadCapp", "LeadCapp Software Solutions", "app development company in India", "mobile app development Kerala",
+    "website development company", "Next.js development", "Flutter app development", "MVP development India", "software company Kerala",
+  ],
+  alternates: { canonical: "/" },
+  robots: { index: true, follow: true },
   openGraph: {
-    title: "LeadCapp · Your idea deserves a great app",
+    title: "LeadCapp Software Solutions · Your idea deserves a great app",
     description: site.description,
     url: site.url,
-    siteName: site.name,
+    siteName: site.legalName,
     locale: "en_IN",
     type: "website",
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", title: "LeadCapp Software Solutions", description: site.description },
+};
+
+// Tells Google who the company is (name, logo, contact, Instagram) for the brand search result.
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${site.url}/#org`,
+      name: site.legalName,
+      alternateName: ["LeadCapp", "Lead Capp"],
+      url: site.url,
+      logo: `${site.url}/logo-512.png`,
+      email: site.email,
+      telephone: site.phone,
+      description: site.description,
+      address: { "@type": "PostalAddress", addressCountry: "IN", addressRegion: "Kerala" },
+      sameAs: [site.instagram],
+      contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: site.email, telephone: site.phone, areaServed: "IN", availableLanguage: ["en", "ml", "hi"] }],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: site.url,
+      name: site.legalName,
+      alternateName: "LeadCapp",
+      publisher: { "@id": `${site.url}/#org` },
+      inLanguage: "en-IN",
+    },
+  ],
 };
 
 export const viewport: Viewport = { themeColor: "#101010", colorScheme: "dark", viewportFit: "cover" };
@@ -31,6 +72,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${interTight.variable} ${mono.variable}`}>
       <body>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
         <Nav />
         <StatusPill />
         <main id="top">{children}</main>
