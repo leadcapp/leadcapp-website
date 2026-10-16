@@ -56,7 +56,7 @@ export default function Hero() {
       <Waves />
       <div className="veil" aria-hidden="true" />
       <div className="wrap">
-        <span className="badge"><i />Partnering with startups &amp; enterprises 🇮🇳</span>
+        <span className="badge"><i />Partnering with startups &amp; enterprises <svg className="flag" viewBox="0 0 18 12" aria-label="India" role="img"><rect width="18" height="4" fill="#FF9933" /><rect y="4" width="18" height="4" fill="#fff" /><rect y="8" width="18" height="4" fill="#138808" /><circle cx="9" cy="6" r="1.5" fill="none" stroke="#000080" strokeWidth=".5" /></svg></span>
         <h1>
           <span className="ln"><span>Your idea deserves</span></span>
           <span className="ln"><span>a great app.</span></span>

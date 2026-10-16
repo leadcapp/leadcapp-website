@@ -430,3 +430,5 @@ p{margin:0}
   .case-feats{grid-template-columns:1fr}
   .case-phones{margin-top:20px}
 }
+
+.badge .flag{width:16px;height:11px;border-radius:2px;display:inline-block;vertical-align:-1px;flex:none}
