@@ -89,7 +89,7 @@ export function Projects() {
             <div className="tags">{["Apps", "Web", "Cloud", "AI"].map((t) => <span className="tg" key={t}>{t}</span>)}</div>
             <h3>Your project</h3>
             <p>Have an idea? It could be the next product on this list.</p>
-            <button className="more" type="button" data-book>Start a project →</button>
+            <button className="more" type="button" data-book="project_card_your_project">Start a project →</button>
           </article>
         </Carousel>
       </div>
@@ -112,7 +112,7 @@ export function Packages() {
               <p className="for"><b>{k.forBold}</b> {k.forText}</p>
               <ul>{k.items.map((i) => <li key={i}>{i}</li>)}</ul>
               <p className="fine">{k.fine[0]}<br />{k.fine[1]}</p>
-              <button className={`pill ${k.highlight ? "pill-solid" : "pill-line"}`} type="button" data-book>Book a call</button>
+              <button className={`pill ${k.highlight ? "pill-solid" : "pill-line"}`} type="button" data-book={`package_${k.name.toLowerCase()}`}>Book a call</button>
             </div>
           ))}
         </div>
@@ -243,7 +243,7 @@ export function Contact() {
         <h2 className="big">BUILD WITH US</h2>
         <p className="lead">Your idea is worth building. Let&apos;s build it right.</p>
         <p className="body">Tell us about it on a free call. We&apos;ll come back with a clear scope, timeline and quote. No pressure, no jargon.</p>
-        <button className="pill pill-line" type="button" data-book>Let&apos;s Build!</button>
+        <button className="pill pill-line" type="button" data-book="contact_section">Let&apos;s Build!</button>
         <div className="contact-list"><span>{site.email}</span><span>{site.phone}</span><span>{site.instagramHandle}</span></div>
       </div>
       <Footer />

@@ -23,14 +23,14 @@ export default function Nav() {
           <span className="lbl">Email</span>
         </a>
       </div>
-      <button className="pill pill-solid" type="button" data-book>Let&apos;s Build!</button>
+      <button className="pill pill-solid" type="button" data-book="nav">Let&apos;s Build!</button>
     </nav>
   );
 }
 
 export function StatusPill() {
   return (
-    <button className="status" type="button" data-book>
+    <button className="status" type="button" data-book="status_pill">
       <i aria-hidden="true" />We are accepting projects!
     </button>
   );

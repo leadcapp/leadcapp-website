@@ -77,7 +77,7 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
             <h2>Have an idea like this?</h2>
             <p>Book a free call and get a clear scope, timeline and quote.</p>
             <div className="row-btns">
-              <button className="pill pill-solid" type="button" data-book>Book a Free Strategy Call</button>
+              <button className="pill pill-solid" type="button" data-book={`case_study_${p.slug}`}>Book a Free Strategy Call</button>
               <Link className="pill pill-line" href={`/work/${next.slug}`}>Next: {next.name} →</Link>
             </div>
           </div>

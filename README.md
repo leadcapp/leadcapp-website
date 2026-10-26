@@ -59,3 +59,46 @@ If these aren't set, the booking pop-up still works and ends with a "Send on Wha
 - `/` home page
 - `/work/cravitty`, `/work/purvaj`, `/work/quick-supermarket` case studies
 - `/api/book` booking endpoint (POST)
+
+## Analytics and ad tracking
+
+Tracking is switched on by adding these in Vercel → Settings → Environment Variables, then redeploying:
+
+| Variable | Where to get it |
+|---|---|
+| `NEXT_PUBLIC_GA_ID` | Google Analytics → Admin → Data streams → your web stream → Measurement ID (`G-…`) |
+| `NEXT_PUBLIC_META_PIXEL_ID` | Meta Events Manager → Data sources → your Pixel → ID (only needed for Instagram/Facebook ads) |
+
+All tracking code is in `lib/analytics.ts` and `components/Analytics.tsx`.
+
+### Events sent
+
+| Event | When it fires | Useful details |
+|---|---|---|
+| `page_view` | Every page visit (automatic) | page, source |
+| `scroll_depth` | At 25, 50, 75, 90, 100% of a page | percent |
+| `scrolled_to_bottom` | Reached the very end of a page | page |
+| `section_view` | A section reaches the middle of the screen | questions, work, pricing, flow, services, contact |
+| `engaged_time` | Still on the page after 30s, 60s, 3 min | seconds |
+| `booking_open` | Clicked any "Let's Build / Book a call" button | location: nav, hero, status_pill, package_mvp, package_growth, package_scale, contact_section, case_study_… |
+| `booking_date_select` | Picked a date | weekday |
+| `booking_time_select` | Picked a time slot | weekday, hour |
+| `booking_form_start` | Started typing their details | location |
+| `booking_form_error` | Tried to submit with a missing name/email | field |
+| `booking_abandon` | Closed the pop-up without finishing | step: choosing_time / filling_details |
+| `generate_lead` | Submitted a booking (the main conversion) | project, budget, call_on, source, method |
+| `booking_whatsapp_click` | Tapped the WhatsApp button after booking | sent |
+| `project_click`, `project_view` | Opened a case study | project |
+| `projects_carousel` | Used the project arrows | direction |
+| `instagram_click`, `figma_click`, `email_click`, `whatsapp_click` | Outbound clicks | location |
+| `see_how_we_build_click` | Hero secondary button | |
+
+Meta receives `PageView`, `InitiateCheckout` (booking opened), `Lead` (booking sent), `ViewContent` (case study), `Contact` (WhatsApp), plus `scrolled_to_bottom`, `booking_time_select`, `booking_form_start` and `engaged_time`.
+
+### Where each lead came from
+
+The first ad/source a visitor arrived from (`utm_source`, `utm_medium`, `utm_campaign`, `gclid`, `fbclid`, referrer) is remembered in the browser and added to every booking email as **Came from**. Always add UTM tags to ad links, for example:
+
+```
+https://www.leadcapp.com/?utm_source=instagram&utm_medium=paid_social&utm_campaign=oct_launch
+```

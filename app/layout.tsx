@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Nav, { StatusPill } from "@/components/Nav";
 import Booking from "@/components/Booking";
 import ScrollEffects from "@/components/ScrollEffects";
+import Analytics from "@/components/Analytics";
 import { site } from "@/lib/data";
 import "./globals.css";
 
@@ -78,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="top">{children}</main>
         <Booking />
         <ScrollEffects />
+        <Analytics />
       </body>
     </html>
   );

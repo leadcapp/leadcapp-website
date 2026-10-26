@@ -67,8 +67,8 @@ export default function Hero() {
           your business, not managing developers.
         </p>
         <div className="ctas">
-          <button className="pill pill-line" type="button" data-book>Book a Free Strategy Call</button>
-          <a className="pill pill-text" href="#flow">See How We Build ↓</a>
+          <button className="pill pill-line" type="button" data-book="hero">Book a Free Strategy Call</button>
+          <a className="pill pill-text" href="#flow" data-track="see_how_we_build_click">See How We Build ↓</a>
         </div>
 
         <div className="devices" aria-label="Examples of apps and dashboards we build">

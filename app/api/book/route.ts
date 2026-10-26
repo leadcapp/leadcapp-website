@@ -27,7 +27,13 @@ export async function POST(req: Request) {
     budget: clean(body.budget, 80),
     mode: clean(body.mode, 40),
     message: clean(body.message, 3000),
+    source: clean(body.source, 200),
+    openedFrom: clean(body.openedFrom, 80),
   };
+  // Full first-touch detail (utm_*, gclid, fbclid, referrer, landing page)
+  const detail = (typeof body.sourceDetail === "object" && body.sourceDetail) ? body.sourceDetail as Record<string, unknown> : {};
+  const ALLOWED = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid", "referrer", "landing", "first_seen"];
+  const detailText = Object.entries(detail).filter(([k]) => ALLOWED.includes(k)).map(([k, v]) => `${k}: ${clean(v, 200)}`).join("\n");
   if (!d.name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email) || !d.when) {
     return NextResponse.json({ ok: false, error: "invalid" }, { status: 400 });
   }
@@ -47,11 +53,13 @@ export async function POST(req: Request) {
   const rows: [string, string][] = [
     ["When", d.when], ["Name", d.name], ["Email", d.email], ["Phone", d.phone || "-"],
     ["Project", d.project], ["Budget", d.budget], ["Call on", d.mode],
+    ["Came from", d.source || "unknown"], ["Clicked", d.openedFrom || "-"],
   ];
   const html = `<div style="font-family:Arial,sans-serif;font-size:15px;color:#111">
     <h2 style="margin:0 0 12px">New call booking</h2>
     <table cellpadding="6" style="border-collapse:collapse">${rows.map(([k, v]) => `<tr><td style="color:#666">${k}</td><td><b>${esc(v)}</b></td></tr>`).join("")}</table>
-    <p style="margin-top:16px;color:#666">Idea</p><p style="white-space:pre-wrap">${esc(d.message || "-")}</p></div>`;
+    <p style="margin-top:16px;color:#666">Idea</p><p style="white-space:pre-wrap">${esc(d.message || "-")}</p>
+    ${detailText ? `<p style="margin-top:16px;color:#999;font-size:12px;white-space:pre-wrap">${esc(detailText)}</p>` : ""}</div>`;
 
   try {
     await transporter.sendMail({
@@ -59,7 +67,7 @@ export async function POST(req: Request) {
       to,
       replyTo: `"${d.name}" <${d.email}>`,
       subject: `New call booking: ${d.name} · ${d.when}`,
-      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n") + `\n\nIdea:\n${d.message || "-"}`,
+      text: rows.map(([k, v]) => `${k}: ${v}`).join("\n") + `\n\nIdea:\n${d.message || "-"}` + (detailText ? `\n\nTracking:\n${detailText}` : ""),
       html,
     });
     // Confirmation to the visitor (failure here doesn't fail the booking)

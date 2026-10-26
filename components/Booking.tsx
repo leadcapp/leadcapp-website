@@ -1,6 +1,8 @@
 "use client";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { booking, site } from "@/lib/data";
+import { track, getSource, sourceLabel } from "@/lib/analytics";
+import { where } from "./Analytics";
 
 const MON = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const DAY = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -33,6 +35,13 @@ export default function Booking() {
   const [result, setResult] = useState<{ sent: boolean; name: string; text: string } | null>(null);
   const lastFocus = useRef<HTMLElement | null>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
+  // For analytics: where the pop-up was opened from, and how far the visitor got.
+  const openedFrom = useRef("unknown");
+  const stepRef = useRef<Step>("pick");
+  const openRef = useRef(false);
+  const formStarted = useRef(false);
+  stepRef.current = step;
+  openRef.current = open;
 
   // Dates are handled as UTC midnights of the India calendar day.
   const cal = useMemo(() => {
@@ -60,7 +69,10 @@ export default function Booking() {
     setView(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1));
   }, []);
 
-  const openModal = useCallback(() => {
+  const openModal = useCallback((from: string) => {
+    openedFrom.current = from;
+    formStarted.current = false;
+    track("booking_open", { location: from, source: sourceLabel() });
     lastFocus.current = document.activeElement as HTMLElement;
     setOpen(true);
     document.body.style.overflow = "hidden";
@@ -68,6 +80,9 @@ export default function Booking() {
   }, []);
 
   const close = useCallback(() => {
+    if (!openRef.current) return;
+    // Closed without finishing = dropped off at this step
+    if (stepRef.current !== "done") track("booking_abandon", { step: stepRef.current === "pick" ? "choosing_time" : "filling_details", location: openedFrom.current });
     setShown(false);
     document.body.style.overflow = "";
     setTimeout(() => setOpen(false), 300);
@@ -77,8 +92,8 @@ export default function Booking() {
   // Any element with data-book opens the modal.
   useEffect(() => {
     const onClick = (e: MouseEvent) => {
-      const b = (e.target as HTMLElement).closest("[data-book]");
-      if (b) { e.preventDefault(); openModal(); }
+      const b = (e.target as HTMLElement).closest<HTMLElement>("[data-book]");
+      if (b) { e.preventDefault(); openModal(b.dataset.book || where(b)); }
     };
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") close(); };
     document.addEventListener("click", onClick);
@@ -107,18 +122,20 @@ export default function Booking() {
     e.preventDefault();
     const f = new FormData(e.currentTarget);
     const d = Object.fromEntries(f.entries()) as Record<string, string>;
-    if (!d.name?.trim()) { setErr("Please add your name."); return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email || "")) { setErr("Please add a valid email so we can send the meeting link."); return; }
+    if (!d.name?.trim()) { setErr("Please add your name."); track("booking_form_error", { field: "name" }); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email || "")) { setErr("Please add a valid email so we can send the meeting link."); track("booking_form_error", { field: "email" }); return; }
     setErr(""); setSending(true);
     const text = `New call booking for LeadCapp\n\nWhen: ${picked}\nName: ${d.name}\nEmail: ${d.email}\nPhone: ${d.phone || "-"}\nProject: ${d.project}\nBudget: ${d.budget}\nCall on: ${d.mode}\n\nIdea:\n${d.message || "-"}`;
     let sent = false;
     try {
-      const r = await fetch("/api/book", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...d, when: picked }) });
+      const r = await fetch("/api/book", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ...d, when: picked, source: sourceLabel(), sourceDetail: getSource(), openedFrom: openedFrom.current }) });
       const j = await r.json();
       sent = !!j.ok;
     } catch { sent = false; }
     setSending(false);
     setResult({ sent, name: d.name.trim().split(" ")[0], text });
+    // The key conversion: a completed booking request
+    track("generate_lead", { method: sent ? "email" : "whatsapp_handoff", project: d.project, budget: d.budget, call_on: d.mode, location: openedFrom.current, source: sourceLabel(), currency: "INR", value: 30000 });
     setStep("done");
   }
 
@@ -157,7 +174,7 @@ export default function Booking() {
                   return (
                     <button key={t} type="button" disabled={!ok} aria-label={ok ? dateLong(t) : undefined}
                       className={`day ${ok ? "av" : ""} ${t === sel ? "sel" : ""} ${t === cal.TODAY ? "today" : ""}`}
-                      onClick={() => ok && choose(t)}>{i + 1}</button>
+                      onClick={() => { if (ok) { choose(t); track("booking_date_select", { weekday: DAYL[new Date(t).getUTCDay()] }); } }}>{i + 1}</button>
                   );
                 })}
               </div>
@@ -190,7 +207,7 @@ export default function Booking() {
                       <h4>{DAY[d.getUTCDay()]} {i === 0 ? <span className="pilld">{ord(d.getUTCDate())}</span> : ord(d.getUTCDate())}</h4>
                       <div className="sl-list">
                         {cal.hoursFor(c).map((h) => (
-                          <button key={h} type="button" className="slot" onClick={() => { setSlot({ t: c, h }); setStep("form"); }}>{tl(h)}</button>
+                          <button key={h} type="button" className="slot" onClick={() => { setSlot({ t: c, h }); setStep("form"); track("booking_time_select", { weekday: DAYL[new Date(c).getUTCDay()], hour: h, location: openedFrom.current }); }}>{tl(h)}</button>
                         ))}
                       </div>
                     </div>
@@ -202,7 +219,7 @@ export default function Booking() {
         )}
 
         {step === "form" && (
-          <form className="form" noValidate onSubmit={submit}>
+          <form className="form" noValidate onSubmit={submit} onFocus={() => { if (!formStarted.current) { formStarted.current = true; track("booking_form_start", { location: openedFrom.current }); } }}>
             <div className="picked"><span>Your call: <b>{picked}</b></span><button type="button" onClick={() => setStep("pick")}>Change time</button></div>
             <div className="fgrid">
               <div className="f"><label htmlFor="bName">Your name</label><input id="bName" name="name" autoComplete="name" required autoFocus /></div>
@@ -232,7 +249,7 @@ export default function Booking() {
                 : `Tap below to send your booking for ${picked} to us on WhatsApp. We'll confirm it there.`}
             </p>
             <div className="acts">
-              <a className={`pill ${result.sent ? "pill-line" : "pill-solid"}`} href={wa} target="_blank" rel="noopener">
+              <a className={`pill ${result.sent ? "pill-line" : "pill-solid"}`} href={wa} target="_blank" rel="noopener" data-track="booking_whatsapp_click" data-track-sent={result.sent ? "yes" : "no"}>
                 {result.sent ? "Also message us on WhatsApp" : "Send on WhatsApp"}
               </a>
             </div>
