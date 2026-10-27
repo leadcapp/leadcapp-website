@@ -3,6 +3,7 @@ import Image from "next/image";
 import { faqs, packages, flow, projects, site, type Project } from "@/lib/data";
 import Carousel from "./Carousel";
 import Logo from "./Logo";
+import { services } from "@/lib/services";
 
 export function Giant({ word, dir = 1 }: { word: string; dir?: 1 | -1 }) {
   return (
@@ -40,7 +41,7 @@ export function Questions() {
     <section id="questions">
       <Giant word="QUESTIONS" dir={1} />
       <div className="wrap">
-        <p className="chapter-sub">What founders ask before they build.</p>
+        <h2 className="chapter-sub">What founders ask before they build.</h2>
         <div className="reviews">
           <div className="cols">
             <QCol items={faqs.slice(0, 3)} />
@@ -61,11 +62,11 @@ function ProjectCard({ p }: { p: Project }) {
       <div className="art">
         {p.cover.length > 1 ? (
           <div className="duo">
-            <div className="ph a"><Image src={p.cover[0]} alt="" width={360} height={780} /></div>
-            <div className="ph b"><Image src={p.cover[1]} alt="" width={360} height={780} /></div>
+            <div className="ph a"><Image src={p.cover[0]} alt={`${p.name} app screen`} width={360} height={780} /></div>
+            <div className="ph b"><Image src={p.cover[1]} alt={`${p.name} app second screen`} width={360} height={780} /></div>
           </div>
         ) : (
-          <div className="ph"><Image src={p.cover[0]} alt="" width={360} height={780} /></div>
+          <div className="ph"><Image src={p.cover[0]} alt={`${p.name} app home screen`} width={360} height={780} /></div>
         )}
       </div>
       <div className="tags">{p.tags.map((t) => <span className="tg" key={t}>{t}</span>)}</div>
@@ -81,7 +82,7 @@ export function Projects() {
     <section id="work">
       <Giant word="PROJECTS" dir={-1} />
       <div className="wrap">
-        <p className="chapter-sub">Our best work. Designed and shipped.</p>
+        <h2 className="chapter-sub">Our best work. Designed and shipped.</h2>
         <Carousel>
           {projects.map((p) => <ProjectCard p={p} key={p.slug} />)}
           <article className="proj p-you">
@@ -103,7 +104,7 @@ export function Packages() {
     <section id="pricing">
       <Giant word="PACKAGES" dir={1} />
       <div className="wrap">
-        <p className="chapter-sub">Clear scope. Fixed price. No surprises.</p>
+        <h2 className="chapter-sub">Clear scope. Fixed price. No surprises.</h2>
         <div className="packs">
           {packages.map((k) => (
             <div className={`pack ${k.highlight ? "mid" : ""}`} key={k.name}>
@@ -118,7 +119,8 @@ export function Packages() {
         </div>
         <p className="packs-note">
           Final price depends on your features, platforms and integrations. You get a written scope and a fixed quote after
-          the free call, and the quote you approve is the price you pay.
+          the free call, and the quote you approve is the price you pay.{" "}
+          <Link href="/services/app-development-cost" className="u">How app pricing works →</Link>
         </p>
       </div>
     </section>
@@ -131,7 +133,7 @@ export function Flow() {
     <section id="flow">
       <Giant word="FLOW" dir={-1} />
       <div className="wrap">
-        <p className="chapter-sub">From idea to app store. How we work.</p>
+        <h2 className="chapter-sub">From idea to app store. How we work.</h2>
         <div className="flow" id="flowList">
           <div className="fill" id="flowFill" />
           {flow.map((s) => (
@@ -159,7 +161,7 @@ export function Services() {
     <section id="services">
       <Giant word="SERVICES" dir={1} />
       <div className="wrap">
-        <p className="chapter-sub">Apps, web, cloud and AI. One team.</p>
+        <h2 className="chapter-sub">Apps, web, cloud and AI. One team.</h2>
         <div className="bento">
           <div className="svc">
             <div className="vis">
@@ -172,6 +174,7 @@ export function Services() {
             </div>
             <h3><Ic d={<rect x="6" y="2" width="12" height="20" rx="3" />} />Mobile Apps</h3>
             <p>iOS and Android apps from one codebase, ready for both stores.</p>
+            <Link className="more-link" href="/services/mobile-app-development">Mobile app development →</Link>
           </div>
           <div className="svc">
             <div className="vis">
@@ -184,6 +187,7 @@ export function Services() {
             </div>
             <h3><Ic d={<><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></>} />Web Applications</h3>
             <p>Websites, dashboards and portals that work on every screen.</p>
+            <Link className="more-link" href="/services/website-development">Website development →</Link>
           </div>
           <div className="svc">
             <div className="vis">
@@ -217,6 +221,7 @@ export function Services() {
               <h3><Ic d={<><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M3 9h18M9 21V9" /></>} />UI/UX Design</h3>
               <p>Research, wireframes and clickable Figma prototypes, designed to turn visitors into customers.</p>
               <div className="tags"><span className="tg">Figma</span><span className="tg">Prototypes</span><span className="tg">Design systems</span></div>
+              <Link className="more-link" href="/services/ui-ux-design">UI/UX design →</Link>
             </div>
             <div className="vis">
               <svg width="230" height="130" viewBox="0 0 230 130" aria-hidden="true">
@@ -244,7 +249,11 @@ export function Contact() {
         <p className="lead">Your idea is worth building. Let&apos;s build it right.</p>
         <p className="body">Tell us about it on a free call. We&apos;ll come back with a clear scope, timeline and quote. No pressure, no jargon.</p>
         <button className="pill pill-line" type="button" data-book="contact_section">Let&apos;s Build!</button>
-        <div className="contact-list"><span>{site.email}</span><span>{site.phone}</span><span>{site.instagramHandle}</span></div>
+        <div className="contact-list">
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+          <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
+          <a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
+        </div>
       </div>
       <Footer />
     </section>
@@ -258,7 +267,11 @@ export function Footer() {
       <div className="row">
         <div>
           <div className="brand"><Logo />LeadCapp</div>
-          <div className="copy">© {new Date().getFullYear()} {site.legalName}. All rights reserved.</div>
+          <div className="copy">© {new Date().getFullYear()} {site.legalName}. Based in Malappuram, Kerala. Working with clients across India.</div>
+          <nav className="foot-links" aria-label="Footer">
+            {services.map((x) => <Link key={x.slug} href={`/services/${x.slug}`}>{x.h1}</Link>)}
+            {projects.map((p) => <Link key={p.slug} href={`/work/${p.slug}`}>{p.name}</Link>)}
+          </nav>
         </div>
         <div className="join">
           <b>Want to work at LeadCapp?</b>

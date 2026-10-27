@@ -4,6 +4,8 @@ export const site = {
   name: "LeadCapp",
   legalName: "LeadCapp Software Solutions",
   url: "https://www.leadcapp.com",
+  city: "Malappuram",
+  region: "Kerala",
   email: "leadcapp@gmail.com",
   phone: "+91 96562 49938",
   whatsapp: "919656249938", // country code + number, no + or spaces

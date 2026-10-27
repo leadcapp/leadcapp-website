@@ -14,15 +14,15 @@ const mono = localFont({ src: "./fonts/JetBrainsMono.woff2", weight: "400", vari
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "LeadCapp Software Solutions | App & Web Development Company in India",
+    default: "App & Website Development in Malappuram, Kerala | LeadCapp",
     template: "%s | LeadCapp Software Solutions",
   },
   description:
-    "LeadCapp Software Solutions builds mobile apps, websites, web platforms, cloud systems and AI features for startups and businesses in India. MVPs from ₹30,000. Book a free call.",
+    "Malappuram-based team building Android & iOS apps, websites and web platforms for businesses across Kerala and India. MVPs from ₹30,000. Book a free call.",
   applicationName: site.legalName,
   keywords: [
-    "LeadCapp", "LeadCapp Software Solutions", "app development company in India", "mobile app development Kerala",
-    "website development company", "Next.js development", "Flutter app development", "MVP development India", "software company Kerala",
+    "LeadCapp", "LeadCapp Software Solutions", "app development company in Malappuram", "app development company in Kerala", "app development company in India", "mobile app development Kerala",
+    "website development company", "Next.js development", "Flutter app development", "MVP development India", "software company Kerala", "software company Malappuram", "website development Malappuram",
   ],
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
@@ -42,8 +42,13 @@ const orgJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      // ProfessionalService is a kind of Organization (LocalBusiness), so Google can show it for "near me" style searches.
+      "@type": ["Organization", "ProfessionalService"],
       "@id": `${site.url}/#org`,
+      image: `${site.url}/logo-512.png`,
+      priceRange: "₹30,000+",
+      areaServed: [{ "@type": "City", name: "Malappuram" }, { "@type": "State", name: "Kerala" }, { "@type": "Country", name: "India" }],
+      knowsAbout: ["Mobile app development", "Android app development", "iOS app development", "Website development", "Next.js", "Flutter", "UI/UX design", "AI integration"],
       name: site.legalName,
       alternateName: ["LeadCapp", "Lead Capp"],
       url: site.url,
@@ -51,7 +56,7 @@ const orgJsonLd = {
       email: site.email,
       telephone: site.phone,
       description: site.description,
-      address: { "@type": "PostalAddress", addressCountry: "IN", addressRegion: "Kerala" },
+      address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.region, addressCountry: "IN" },
       sameAs: [site.instagram],
       contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: site.email, telephone: site.phone, areaServed: "IN", availableLanguage: ["en", "ml", "hi"] }],
     },
