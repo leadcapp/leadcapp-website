@@ -431,4 +431,43 @@ p{margin:0}
   .case-phones{margin-top:20px}
 }
 
+/* ---------- Service pages (/services/...) ---------- */
+.svc-hero{padding-bottom:40px}
+.svc-hero::before{background:radial-gradient(60% 55% at 80% 20%,#3a3d52,transparent 70%);opacity:.5}
+.svc-copy{max-width:900px;margin-top:36px}
+.svc-copy h1{font-size:clamp(42px,6.4vw,92px)}
+.svc-ctas{justify-content:flex-start}
+.svc-row{gap:24px 48px;padding-block:36px}
+.svc-row p{margin-top:0}
+.svc-feats{margin-top:32px}
+.svc-work{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin-top:32px}
+.svc-proj{display:grid;grid-template-columns:110px 1fr;gap:20px;align-items:center;padding:20px;border:1px solid var(--line);border-radius:24px;background:var(--card);transition:border-color .3s}
+.svc-proj:hover{border-color:var(--line-2)}
+.svc-proj .cph{border-radius:18px;padding:3px}
+.svc-proj .cph img{border-radius:14px}
+.svc-proj h3{font-size:20px;font-weight:600;letter-spacing:-.03em}
+.svc-proj p{color:var(--grey);font-size:14px;line-height:1.55;margin:6px 0 10px}
+.svc-more{font-size:14px}
+.svc-faq{margin-top:28px;border-top:1px solid var(--line)}
+.svc-faq details{border-bottom:1px solid var(--line);padding:20px 0}
+.svc-faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.svc-faq summary::-webkit-details-marker{display:none}
+.svc-faq summary::after{content:"+";color:var(--grey);font-size:24px;line-height:1;flex:none}
+.svc-faq details[open] summary::after{content:"–"}
+.svc-faq h3{font-size:clamp(17px,1.6vw,20px);font-weight:500;letter-spacing:-.025em}
+.svc-faq p{color:#B9BCC6;font-size:16px;line-height:1.6;margin:12px 0 0;max-width:70ch}
+.svc-others ul{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:12px}
+.svc-others a{color:var(--grey);font-size:18px}
+.svc-others a:hover{color:var(--ink)}
+.packs-note .u{color:var(--grey);text-decoration:underline;text-underline-offset:3px}
+.packs-note .u:hover{color:var(--ink)}
+.foot-links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-size:13px;color:var(--grey)}
+.foot-links a:hover{color:var(--ink)}
+.contact-list a:hover{color:var(--ink)}
+.svc .more-link{display:inline-block;margin-top:12px;font-size:14px;color:var(--grey)}
+.svc .more-link:hover{color:var(--ink)}
+@media (max-width:600px){
+  .svc-proj{grid-template-columns:84px 1fr;gap:14px;padding:16px}
+}
+
 .badge .flag{width:16px;height:11px;border-radius:2px;display:inline-block;vertical-align:-1px;flex:none}

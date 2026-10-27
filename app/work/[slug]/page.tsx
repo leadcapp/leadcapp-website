@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { projects } from "@/lib/data";
+import { projects, site } from "@/lib/data";
 import { Footer } from "@/components/Sections";
+import JsonLd from "@/components/JsonLd";
 
 type Params = { slug: string };
 
@@ -15,7 +16,12 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   const { slug } = await params;
   const p = projects.find((x) => x.slug === slug);
   if (!p) return {};
-  return { title: `${p.name} case study`, description: p.summary, alternates: { canonical: `/work/${p.slug}` }, openGraph: { title: `${p.name} · LeadCapp`, description: p.summary, images: [p.cover[0]] } };
+  return {
+    title: { absolute: `${p.name}: ${p.tags[0]} Case Study, ${p.location.split(",")[0]} | LeadCapp` },
+    description: p.summary,
+    alternates: { canonical: `/work/${p.slug}` },
+    openGraph: { title: `${p.name} · LeadCapp`, description: p.summary, images: [p.cover[0]] },
+  };
 }
 
 export default async function CaseStudy({ params }: { params: Promise<Params> }) {
@@ -24,9 +30,35 @@ export default async function CaseStudy({ params }: { params: Promise<Params> })
   if (i < 0) notFound();
   const p = projects[i];
   const next = projects[(i + 1) % projects.length];
+  const url = `${site.url}/work/${p.slug}`;
+  const schema = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CreativeWork",
+        "@id": `${url}#work`,
+        name: `${p.name} ${p.tags[0].toLowerCase()}`,
+        description: p.summary,
+        url,
+        image: `${site.url}${p.cover[0]}`,
+        creator: { "@id": `${site.url}/#org` },
+        keywords: [...p.tags, ...p.services].join(", "),
+        locationCreated: { "@type": "Place", name: p.location },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+          { "@type": "ListItem", position: 2, name: "Projects", item: `${site.url}/#work` },
+          { "@type": "ListItem", position: 3, name: p.name, item: url },
+        ],
+      },
+    ],
+  };
 
   return (
     <>
+      <JsonLd data={schema} />
       <section className={`case-hero p-${p.theme}`}>
         <div className="wrap">
           <Link className="back" href="/#work">← All projects</Link>
