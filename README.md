@@ -62,12 +62,15 @@ If these aren't set, the booking pop-up still works and ends with a "Send on Wha
 
 ## Analytics and ad tracking
 
-Tracking is switched on by adding these in Vercel → Settings → Environment Variables, then redeploying:
+Tracking is on by default with LeadCapp's own IDs, built into `lib/analytics.ts`:
 
-| Variable | Where to get it |
-|---|---|
-| `NEXT_PUBLIC_GA_ID` | Google Analytics → Admin → Data streams → your web stream → Measurement ID (`G-…`) |
-| `NEXT_PUBLIC_META_PIXEL_ID` | Meta Events Manager → Data sources → your Pixel → ID (only needed for Instagram/Facebook ads) |
+| Tool | ID | What it's for |
+|---|---|---|
+| Google Analytics 4 | `G-B2JM70KHJ8` | Visitors, sources, events, conversions |
+| Meta Pixel | `1328622259276746` | Instagram/Facebook ad tracking and optimisation |
+| Microsoft Clarity | `z43opatrgz` | Heatmaps, scroll maps and session recordings |
+
+To use a different ID, set `NEXT_PUBLIC_GA_ID`, `NEXT_PUBLIC_META_PIXEL_ID` or `NEXT_PUBLIC_CLARITY_ID` in Vercel → Settings → Environment Variables and redeploy. Set one to `off` to switch that tool off. Every event below is also sent to Clarity, so you can filter recordings by it (for example, sessions with `booking_abandon`).
 
 All tracking code is in `lib/analytics.ts` and `components/Analytics.tsx`.
 
