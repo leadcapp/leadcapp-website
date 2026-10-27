@@ -1,8 +1,11 @@
 // One place for all website tracking.
-// Sends events to Google Analytics 4 and (for Instagram/Facebook ads) the Meta Pixel.
-// Both are switched on only when their IDs are set in Vercel:
+// Sends events to Google Analytics 4, the Meta Pixel (for Instagram/Facebook ads)
+// and Microsoft Clarity (heatmaps + session recordings).
+// LeadCapp's IDs are built in below (they are public and appear in the page source anyway).
+// To use different ones, set these in Vercel; set one to "off" to switch that tool off:
 //   NEXT_PUBLIC_GA_ID          e.g. G-XXXXXXXXXX
 //   NEXT_PUBLIC_META_PIXEL_ID  e.g. 1234567890
+//   NEXT_PUBLIC_CLARITY_ID     e.g. abcd1234ef
 
 type Params = Record<string, string | number | boolean | undefined>;
 
@@ -10,12 +13,20 @@ declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
     fbq?: (...args: unknown[]) => void;
+    clarity?: (...args: unknown[]) => void;
     dataLayer?: unknown[];
   }
 }
 
-export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
-export const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID || "";
+const id = (value: string | undefined, fallback: string) => {
+  const v = (value ?? "").trim();
+  if (v.toLowerCase() === "off") return "";
+  return v || fallback;
+};
+
+export const GA_ID = id(process.env.NEXT_PUBLIC_GA_ID, "G-B2JM70KHJ8");
+export const META_PIXEL_ID = id(process.env.NEXT_PUBLIC_META_PIXEL_ID, "1328622259276746");
+export const CLARITY_ID = id(process.env.NEXT_PUBLIC_CLARITY_ID, "z43opatrgz");
 
 // Our event names → Meta's standard events, so Meta can optimise ads for them.
 const META_STANDARD: Record<string, string> = {
@@ -40,6 +51,10 @@ export function track(event: string, params: Params = {}) {
       if (std) window.fbq("track", std, clean);
       else if (META_CUSTOM.has(event)) window.fbq("trackCustom", event, clean);
     }
+  } catch {}
+  try {
+    // Lets you filter Clarity recordings, e.g. "show sessions where someone opened booking"
+    window.clarity?.("event", event);
   } catch {}
   if (process.env.NODE_ENV !== "production") console.debug("[track]", event, clean);
 }

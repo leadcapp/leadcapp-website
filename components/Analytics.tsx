@@ -2,10 +2,10 @@
 import Script from "next/script";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { GA_ID, META_PIXEL_ID, captureSource, sourceLabel, track } from "@/lib/analytics";
+import { CLARITY_ID, GA_ID, META_PIXEL_ID, captureSource, sourceLabel, track } from "@/lib/analytics";
 
 /**
- * Loads Google Analytics 4 and the Meta Pixel, and tracks:
+ * Loads Google Analytics 4, the Meta Pixel and Microsoft Clarity, and tracks:
  * - scroll depth (25 / 50 / 75 / 90 / 100%)
  * - which sections were seen (questions, work, pricing, flow, services, contact)
  * - clicks on anything with data-track="name" (plus data-track-* extra details)
@@ -121,6 +121,14 @@ export default function Analytics() {
           document,'script','https://connect.facebook.net/en_US/fbevents.js');
           fbq('init', '${META_PIXEL_ID}');
           fbq('track', 'PageView');
+        `}</Script>
+      )}
+      {CLARITY_ID && (
+        <Script id="ms-clarity" strategy="afterInteractive">{`
+          (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "${CLARITY_ID}");
         `}</Script>
       )}
     </>
