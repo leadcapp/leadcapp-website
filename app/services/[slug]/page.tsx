@@ -44,7 +44,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         description: s.description,
         url,
         provider: { "@id": `${site.url}/#org` },
-        areaServed: [{ "@type": "State", name: "Kerala" }, { "@type": "Country", name: "India" }],
+        areaServed: [{ "@type": "City", name: "Malappuram" }, { "@type": "State", name: "Kerala" }, { "@type": "Country", name: "India" }],
         offers: { "@type": "Offer", priceCurrency: "INR", price: "30000", description: "MVP package, starting price" },
       },
       {

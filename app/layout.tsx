@@ -14,15 +14,15 @@ const mono = localFont({ src: "./fonts/JetBrainsMono.woff2", weight: "400", vari
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "App & Website Development Company in Kerala | LeadCapp",
+    default: "App & Website Development in Malappuram, Kerala | LeadCapp",
     template: "%s | LeadCapp Software Solutions",
   },
   description:
-    "LeadCapp builds Android & iOS apps, websites and web platforms for startups and businesses in Kerala and across India. MVPs from ₹30,000. Book a free call.",
+    "Malappuram-based team building Android & iOS apps, websites and web platforms for businesses across Kerala and India. MVPs from ₹30,000. Book a free call.",
   applicationName: site.legalName,
   keywords: [
-    "LeadCapp", "LeadCapp Software Solutions", "app development company in Kerala", "app development company in India", "mobile app development Kerala",
-    "website development company", "Next.js development", "Flutter app development", "MVP development India", "software company Kerala",
+    "LeadCapp", "LeadCapp Software Solutions", "app development company in Malappuram", "app development company in Kerala", "app development company in India", "mobile app development Kerala",
+    "website development company", "Next.js development", "Flutter app development", "MVP development India", "software company Kerala", "software company Malappuram", "website development Malappuram",
   ],
   alternates: { canonical: "/" },
   robots: { index: true, follow: true },
@@ -47,7 +47,7 @@ const orgJsonLd = {
       "@id": `${site.url}/#org`,
       image: `${site.url}/logo-512.png`,
       priceRange: "₹30,000+",
-      areaServed: [{ "@type": "State", name: "Kerala" }, { "@type": "Country", name: "India" }],
+      areaServed: [{ "@type": "City", name: "Malappuram" }, { "@type": "State", name: "Kerala" }, { "@type": "Country", name: "India" }],
       knowsAbout: ["Mobile app development", "Android app development", "iOS app development", "Website development", "Next.js", "Flutter", "UI/UX design", "AI integration"],
       name: site.legalName,
       alternateName: ["LeadCapp", "Lead Capp"],
@@ -56,7 +56,7 @@ const orgJsonLd = {
       email: site.email,
       telephone: site.phone,
       description: site.description,
-      address: { "@type": "PostalAddress", addressCountry: "IN", addressRegion: "Kerala" },
+      address: { "@type": "PostalAddress", addressLocality: site.city, addressRegion: site.region, addressCountry: "IN" },
       sameAs: [site.instagram],
       contactPoint: [{ "@type": "ContactPoint", contactType: "sales", email: site.email, telephone: site.phone, areaServed: "IN", availableLanguage: ["en", "ml", "hi"] }],
     },

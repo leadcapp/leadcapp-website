@@ -21,13 +21,13 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "mobile-app-development",
-    title: "Mobile App Development Company in Kerala",
+    title: "Mobile App Development in Malappuram, Kerala",
     description:
-      "Android and iOS app development in Kerala. Designed in Figma, built from one codebase, published to both stores. MVPs from ₹30,000. Book a free call.",
-    h1: "Mobile app development in Kerala",
+      "Android & iOS app development by a Malappuram-based team. Designed in Figma, one codebase, published to both stores. MVPs from ₹30,000.",
+    h1: "Mobile app development in Malappuram, Kerala",
     kicker: "Android · iOS · one codebase",
     intro:
-      "LeadCapp designs and builds mobile apps for startups and businesses across Kerala and India. You get one app that runs on both Android and iPhone, designed screen by screen before any code is written, and published to the Play Store and App Store for you.",
+      "LeadCapp is a Malappuram-based team that designs and builds mobile apps for startups and businesses across Kerala and India. You get one app that runs on both Android and iPhone, designed screen by screen before any code is written, and published to the Play Store and App Store for you.",
     serviceType: "Mobile app development",
     sections: [
       {
@@ -56,18 +56,18 @@ export const services: Service[] = [
       { q: "How much does it cost to build an app in Kerala?", a: "An MVP starts from ₹30,000. Apps for both Android and iOS with an admin panel and payments start from ₹75,000. You get a fixed quote after a free call." },
       { q: "How long does it take to build a mobile app?", a: "Most MVPs launch in 3 to 5 weeks. Larger apps with iOS, payments and several user roles take 6 to 10 weeks." },
       { q: "Will my app work on both Android and iPhone?", a: "Yes. We build from one codebase for both and publish to the Play Store and App Store for you." },
-      { q: "Do you work with businesses outside Kerala?", a: "Yes. We work with clients across India over calls, WhatsApp and weekly demos on your own phone." },
+      { q: "Where is LeadCapp based?", a: "Our team is based in Malappuram, Kerala. We work with businesses across Malappuram, Kozhikode and the rest of Kerala, and with clients across India over calls, WhatsApp and weekly demos on your own phone." },
     ],
   },
   {
     slug: "website-development",
-    title: "Website & Web App Development in Kerala",
+    title: "Website Development in Malappuram, Kerala",
     description:
-      "Fast business websites, dashboards and web apps built with Next.js. Designed in Figma, SEO-ready and mobile-first. From Kerala, for clients across India.",
+      "Fast business websites, dashboards and web apps built with Next.js by a Malappuram-based team. SEO-ready, mobile-first, for clients across Kerala and India.",
     h1: "Website and web app development",
     kicker: "Websites · dashboards · portals",
     intro:
-      "From a business website that brings in enquiries to a full web platform your team runs every day, LeadCapp builds fast, mobile-first sites with Next.js, the same technology used by large product companies.",
+      "From a business website that brings in enquiries to a full web platform your team runs every day, LeadCapp's Malappuram-based team builds fast, mobile-first sites with Next.js, the same technology used by large product companies.",
     serviceType: "Website development",
     sections: [
       {
@@ -95,6 +95,7 @@ export const services: Service[] = [
     faqs: [
       { q: "How much does a business website cost?", a: "Websites and web apps are part of our MVP package, starting from ₹30,000. Larger platforms with logins, payments and dashboards start from ₹75,000." },
       { q: "Will my website show up on Google?", a: "We build every site so Google can read it properly: fast pages, clear headings, a sitemap, structured data and Search Console set up. Rankings then depend on your content and competition." },
+      { q: "Do you build websites for local businesses in Malappuram?", a: "Yes. We're based in Malappuram and build websites for shops, clinics, restaurants, schools and service businesses across the district and the rest of Kerala." },
       { q: "Can I edit the website myself?", a: "Yes. We can add an admin area or simple content editing so you can update text, prices and photos without a developer." },
     ],
   },
@@ -148,7 +149,7 @@ export const services: Service[] = [
     slug: "ui-ux-design",
     title: "UI/UX Design & Figma Prototypes for Apps",
     description:
-      "App and website UI/UX design in Figma: user flows, screens and clickable prototypes you can test before building. From LeadCapp, Kerala.",
+      "App and website UI/UX design in Figma: user flows, screens and clickable prototypes you can test before building. From LeadCapp, Malappuram.",
     h1: "UI/UX design and Figma prototypes",
     kicker: "Research · screens · prototypes",
     intro:
