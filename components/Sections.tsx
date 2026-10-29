@@ -254,6 +254,12 @@ export function Contact() {
           <a href={`tel:${site.phone.replace(/\s/g, "")}`}>{site.phone}</a>
           <a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a>
         </div>
+        <address className="nap">
+          <a href={site.mapsUrl} target="_blank" rel="noopener">
+            {site.legalName}, {site.streetAddress}, {site.city}, {site.region} {site.postalCode}
+          </a>
+          <span>{site.hoursText} · Sunday closed</span>
+        </address>
       </div>
       <Footer />
     </section>
@@ -267,7 +273,7 @@ export function Footer() {
       <div className="row">
         <div>
           <div className="brand"><Logo />LeadCapp</div>
-          <div className="copy">© {new Date().getFullYear()} {site.legalName}. Based in Malappuram, Kerala. Working with clients across India.</div>
+          <div className="copy">© {new Date().getFullYear()} {site.legalName}. Based in {site.city}, {site.region}. Working with clients across India.</div>
           <nav className="foot-links" aria-label="Footer">
             {services.map((x) => <Link key={x.slug} href={`/services/${x.slug}`}>{x.h1}</Link>)}
             {projects.map((p) => <Link key={p.slug} href={`/work/${p.slug}`}>{p.name}</Link>)}

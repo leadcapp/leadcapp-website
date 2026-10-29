@@ -464,6 +464,9 @@ p{margin:0}
 .foot-links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:14px;font-size:13px;color:var(--grey)}
 .foot-links a:hover{color:var(--ink)}
 .contact-list a:hover{color:var(--ink)}
+.nap{font-style:normal;display:grid;gap:6px;justify-items:center;margin-top:18px;padding-inline:16px;color:var(--dim);font-size:13px;line-height:1.5}
+.nap a{color:var(--grey);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--line-2)}
+.nap a:hover{color:var(--ink)}
 .svc .more-link{display:inline-block;margin-top:12px;font-size:14px;color:var(--grey)}
 .svc .more-link:hover{color:var(--ink)}
 @media (max-width:600px){
