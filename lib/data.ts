@@ -4,8 +4,14 @@ export const site = {
   name: "LeadCapp",
   legalName: "LeadCapp Software Solutions",
   url: "https://www.leadcapp.com",
+  // Must match the Google Business Profile exactly (same wording everywhere helps local ranking).
+  streetAddress: "567, Kunnummal, Middle Hill, Up Hill",
   city: "Malappuram",
   region: "Kerala",
+  postalCode: "676505",
+  geo: { lat: 11.045338, lng: 76.076052 },
+  mapsUrl: "https://maps.app.goo.gl/uAv2jPjm4oBP7Ld4A",
+  hoursText: "Mon–Sat, 10 AM – 7 PM",
   email: "leadcapp@gmail.com",
   phone: "+91 96562 49938",
   whatsapp: "919656249938", // country code + number, no + or spaces

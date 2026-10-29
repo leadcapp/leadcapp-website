@@ -146,6 +146,50 @@ export const services: Service[] = [
     ],
   },
   {
+    slug: "app-development-for-businesses-malappuram",
+    title: "Apps & Websites for Malappuram Businesses",
+    description:
+      "Apps and websites for restaurants, supermarkets, clinics, schools and shops in Malappuram. Local team in Up Hill, fixed quotes, from ₹30,000.",
+    h1: "Apps and websites for businesses in Malappuram",
+    kicker: "Local team · Up Hill, Malappuram",
+    intro:
+      "Customers in Malappuram already order food, groceries and bookings on their phones. LeadCapp helps local businesses take those orders directly, under their own name, instead of paying commission to big platforms. We're based in Up Hill, so you can meet the team, see your app on our screens and talk it through in Malayalam or English.",
+    serviceType: "Mobile app development",
+    sections: [
+      {
+        h: "Restaurants, bakeries and cafés",
+        p: "Take orders and table bookings directly, run time-limited offers to fill quiet hours, and reward regular customers with coins or points. We built Cravitty, a food deals app for Kerala, so we know how restaurants and customers actually use these apps.",
+      },
+      {
+        h: "Supermarkets, shops and wholesalers",
+        p: "A grocery or retail app with your full catalogue, festive offers, combos, delivery to the customer's address and a simple panel for your staff to pack orders. Quick Supermarket in Perinthalmanna is one of our recent projects.",
+      },
+      {
+        h: "Clinics, schools, gyms and service businesses",
+        p: "Appointment booking, reminders, fee and payment collection, and a website that brings in enquiries on Google. Payments work with UPI, cards and Razorpay, and every booking lands on your phone.",
+      },
+      {
+        h: "Why a local team helps",
+        p: "You can visit our office in Up Hill, Malappuram, review designs in person and get support from people who know the local market. Most first versions launch in 3 to 5 weeks, with a fixed quote agreed before work starts.",
+      },
+    ],
+    includes: [
+      { title: "Your own brand", text: "Your app and website under your name, not a marketplace's." },
+      { title: "No commission", text: "Orders and bookings come straight to you." },
+      { title: "UPI and payments", text: "Razorpay, UPI, cards and wallets built in." },
+      { title: "Malayalam and English", text: "Apps and websites in the language your customers prefer." },
+      { title: "Meet in person", text: "Visit us in Up Hill to review designs and progress." },
+      { title: "Support after launch", text: "First month free, then monthly plans from ₹3,000." },
+    ],
+    related: ["quick-supermarket", "cravitty"],
+    faqs: [
+      { q: "Where is your office in Malappuram?", a: "We're at 567, Kunnummal, Middle Hill, Up Hill, Malappuram, Kerala 676505. Book a call first so the right person is there to meet you." },
+      { q: "How much does an app for a small business cost?", a: "A first version starts from ₹30,000. Apps with Android, iOS, an admin panel and payments start from ₹75,000. You get a fixed quote after a free call." },
+      { q: "Can the app be in Malayalam?", a: "Yes. We can build apps and websites in Malayalam, English or both, with a language switch for customers." },
+      { q: "Do you also work outside Malappuram?", a: "Yes. We work with businesses across Kozhikode, Kochi and the rest of Kerala, and with clients across India." },
+    ],
+  },
+  {
     slug: "ui-ux-design",
     title: "UI/UX Design & Figma Prototypes for Apps",
     description:
