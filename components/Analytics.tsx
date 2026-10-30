@@ -37,7 +37,14 @@ export default function Analytics() {
   useEffect(() => {
     const marks = [25, 50, 75, 90, 100];
     const hit = new Set<number>();
+    let queued = false;
     const onScroll = () => {
+      // at most once per frame, and stop listening once every mark is reached
+      if (queued || hit.size === marks.length) return;
+      queued = true;
+      requestAnimationFrame(() => { queued = false; check(); });
+    };
+    const check = () => {
       const h = document.documentElement.scrollHeight - innerHeight;
       if (h <= 0) return;
       const pct = Math.round((scrollY / h) * 100);
