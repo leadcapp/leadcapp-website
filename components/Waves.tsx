@@ -20,37 +20,41 @@ export default function Waves() {
   useEffect(() => {
     const cv = ref.current;
     if (!cv) return;
-    const ctx = cv.getContext("2d");
+    const ctx = cv.getContext("2d", { alpha: false });
     if (!ctx) return;
     const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(devicePixelRatio || 1, 2);
+    // The waves are soft blurs, so drawing them at ~40% resolution looks the same
+    // but costs ~6x less work. This matters on Windows laptops with 125–150% scaling.
+    const RES = 0.4;
+    const FRAME_MS = 1000 / 30; // 30 fps is plenty for slow-moving waves
     const t0 = performance.now();
-    let W = 0, H = 0, raf = 0;
+    let W = 0, H = 0, raf = 0, last = 0, visible = true;
 
     const size = () => {
       const r = cv.getBoundingClientRect();
       W = r.width; H = r.height;
-      cv.width = W * dpr; cv.height = H * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cv.width = Math.max(1, Math.round(W * RES)); cv.height = Math.max(1, Math.round(H * RES));
+      ctx.setTransform(RES, 0, 0, RES, 0, 0);
+      paint(performance.now());
     };
 
-    const draw = (now: number) => {
+    const paint = (now: number) => {
       const t = now - t0;
-      ctx.clearRect(0, 0, W, H);
       const g = ctx.createRadialGradient(W * 0.62, H * 0.28, 0, W * 0.62, H * 0.28, Math.max(W, H) * 0.8);
       g.addColorStop(0, "#2b2b2d"); g.addColorStop(0.55, "#161617"); g.addColorStop(1, "#101010");
       ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
       const bands = W < 720 ? mobileBands : desktopBands;
       bands.forEach((b, i) => {
         ctx.beginPath();
-        for (let x = -40; x <= W + 40; x += 16) {
+        for (let x = -40; x <= W + 40; x += 24) {
           const u = x / W;
           const y = H * (b.y + b.a * Math.sin(u * Math.PI * b.f + t * b.s * 6 + i) * Math.cos(u * 1.3 - t * b.s * 3));
           if (x === -40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
         ctx.lineWidth = Math.max(2, H * b.w);
         ctx.strokeStyle = `rgba(235,238,248,${b.o})`;
-        ctx.filter = `blur(${Math.max(10, H * b.w * 0.45)}px)`;
+        // blur radius is in canvas pixels, so scale it down with the resolution
+        ctx.filter = `blur(${Math.max(4, H * b.w * 0.45 * RES)}px)`;
         ctx.stroke();
       });
       ctx.filter = "none";
@@ -59,16 +63,27 @@ export default function Waves() {
       const shade = ctx.createRadialGradient(tx, ty, 0, tx, ty, tr);
       shade.addColorStop(0, "rgba(16,16,16,0.82)"); shade.addColorStop(0.55, "rgba(16,16,16,0.45)"); shade.addColorStop(1, "rgba(16,16,16,0)");
       ctx.fillStyle = shade; ctx.fillRect(0, 0, W, H);
-      if (!reduce && !document.hidden) raf = requestAnimationFrame(draw);
     };
 
-    const onVis = () => { if (!document.hidden && !reduce) { cancelAnimationFrame(raf); raf = requestAnimationFrame(draw); } };
+    const loop = (now: number) => {
+      if (now - last >= FRAME_MS) { last = now; paint(now); }
+      raf = requestAnimationFrame(loop);
+    };
+    const start = () => { cancelAnimationFrame(raf); if (!reduce && visible && !document.hidden) raf = requestAnimationFrame(loop); };
+    const stop = () => cancelAnimationFrame(raf);
+
+    // Only animate while the hero is on screen and the tab is visible.
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) start(); else stop(); });
+    io.observe(cv);
+    const onVis = () => (document.hidden ? stop() : start());
+
     size();
     addEventListener("resize", size);
     document.addEventListener("visibilitychange", onVis);
-    if (reduce) draw(t0 + 4000); else raf = requestAnimationFrame(draw);
+    if (reduce) paint(t0 + 4000); else start();
     return () => {
-      cancelAnimationFrame(raf);
+      stop();
+      io.disconnect();
       removeEventListener("resize", size);
       document.removeEventListener("visibilitychange", onVis);
     };

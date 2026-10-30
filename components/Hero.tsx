@@ -8,7 +8,7 @@ function LaptopUI() {
         <span className="on">Dashboard</span><span>Orders</span><span>Customers</span><span>Reports</span><span>Settings</span>
       </div>
       <div className="main">
-        <h4>Good morning 👋</h4>
+        <h4>Good morning</h4>
         <div className="chips"><span>This week</span><span>Month</span><span>Year</span></div>
         <div className="row">
           <div className="k"><small>Revenue</small><strong>₹4.2L</strong><em>+18%</em></div>
@@ -42,9 +42,9 @@ function PhoneUI() {
       </div>
       <div className="qa"><span>New</span><span>Orders</span><span>Stock</span><span>Reports</span></div>
       <h6>Recent orders <span>See all</span></h6>
-      <div className="li"><i>🛒</i><div><b>Order #2841</b><small>3 items · 2 min ago</small></div><em>₹1,240</em></div>
-      <div className="li"><i>📦</i><div><b>Order #2840</b><small>Out for delivery</small></div><em className="ok">On the way</em></div>
-      <div className="li"><i>💳</i><div><b>Order #2839</b><small>UPI · paid</small></div><em>₹860</em></div>
+      <div className="li"><i><svg viewBox="0 0 24 24"><circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" /><path d="M2 3h3l2.5 12h11L21 7H6" /></svg></i><div><b>Order #2841</b><small>3 items · 2 min ago</small></div><em>₹1,240</em></div>
+      <div className="li"><i><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4v10l-9 4-9-4z" /><path d="M3 7l9 4 9-4M12 11v10" /></svg></i><div><b>Order #2840</b><small>Out for delivery</small></div><em className="ok">On the way</em></div>
+      <div className="li"><i><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2" /><path d="M2 10h20M6 15h4" /></svg></i><div><b>Order #2839</b><small>UPI · paid</small></div><em>₹860</em></div>
       <div className="tb"><span className="on">Home</span><span>Orders</span><span>Insights</span><span>Profile</span></div>
     </div>
   );

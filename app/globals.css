@@ -75,7 +75,7 @@ p{margin:0}
 .hero h1 .ln:nth-child(2) span{animation-delay:.15s;color:#747579}
 .hero h1 .ln:nth-child(3) span{animation-delay:.3s}
 @keyframes blurin{from{opacity:.001;filter:blur(18px);transform:translateY(24px)}to{opacity:1;filter:none;transform:none}}
-.hero .sub{max-width:640px;margin:34px auto 0;color:#A4A6AE;font-size:clamp(16px,1.5vw,19px);font-weight:300;line-height:1.55;animation:blurin 1.2s .45s var(--ease) both}
+.hero .sub{max-width:640px;margin:34px auto 0;color:#A4A6AE;font-size:clamp(16px,1.5vw,19px);font-weight:400;line-height:1.55;animation:blurin 1.2s .45s var(--ease) both}
 .hero .ctas{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-top:40px;animation:blurin 1.2s .55s var(--ease) both}
 
 /* device stack */
@@ -255,7 +255,7 @@ p{margin:0}
 .close{position:relative;overflow:hidden;text-align:center;padding-top:clamp(120px,14vw,200px)}
 .close h2.big{font-size:clamp(56px,10.5vw,170px);font-weight:700;letter-spacing:-.06em;line-height:.9;color:#5B5C61}
 .close .lead{font-size:clamp(20px,2.5vw,32px);margin-top:26px;letter-spacing:-.035em}
-.close .body{max-width:540px;margin:20px auto 0;color:#A4A6AE;font-size:16px;font-weight:300}
+.close .body{max-width:540px;margin:20px auto 0;color:#A4A6AE;font-size:16px;font-weight:400}
 .close .pill{margin-top:40px}
 .contact-list{display:flex;flex-wrap:wrap;justify-content:center;gap:10px 26px;margin-top:40px;color:var(--grey);font-size:14px}
 .contact-list span{user-select:all}
@@ -398,7 +398,7 @@ p{margin:0}
 .case-copy{min-width:0}
 .case-copy .tags{display:flex;flex-wrap:wrap;gap:6px}
 .case-copy h1{font-size:clamp(48px,7vw,104px);line-height:.95;margin-top:20px;font-weight:600;letter-spacing:-.055em}
-.case-sum{color:#B9BCC6;font-size:clamp(17px,1.6vw,20px);font-weight:300;line-height:1.55;margin-top:24px;max-width:52ch}
+.case-sum{color:#B9BCC6;font-size:clamp(17px,1.6vw,20px);font-weight:400;line-height:1.55;margin-top:24px;max-width:52ch}
 .case-meta{display:grid;gap:0;margin:36px 0 0;border-top:1px solid var(--line)}
 .case-meta div{display:grid;grid-template-columns:140px 1fr;gap:16px;padding:14px 0;border-bottom:1px solid var(--line)}
 .case-meta dt{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-family:var(--mono)}
@@ -474,3 +474,17 @@ p{margin:0}
 }
 
 .badge .flag{width:16px;height:11px;border-radius:2px;display:inline-block;vertical-align:-1px;flex:none}
+
+/* ---------- Windows: dark slim scrollbars (Chrome/Edge/Firefox) ---------- */
+html{scrollbar-color:#3a3a3d #101010}
+.bk{scrollbar-width:thin;scrollbar-color:#3a3a3d transparent}
+::-webkit-scrollbar{width:12px;height:12px}
+::-webkit-scrollbar-track{background:#101010}
+::-webkit-scrollbar-thumb{background:#36363a;border-radius:8px;border:3px solid #101010}
+::-webkit-scrollbar-thumb:hover{background:#4a4a50}
+.bk::-webkit-scrollbar-track{background:transparent}
+.bk::-webkit-scrollbar-thumb{border-color:#161616}
+/* Windows high-contrast mode: keep buttons and cards outlined */
+@media (forced-colors: active){.pill,.slot,.day.av,.pack,.rv,.proj,.svc{border:1px solid CanvasText}}
+/* small icon glyphs in the hero phone (replaces emojis, which look different on Windows) */
+.app .li i svg{width:1.3em;height:1.3em;stroke:#cfd1d8;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
